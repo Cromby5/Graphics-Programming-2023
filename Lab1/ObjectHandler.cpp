@@ -23,7 +23,7 @@ void ObjectHandler::initObjects()
 	
 	objects.reserve(15); // reserve 15 objects to prevent reallocation of the vector in this example scene.
 
-	tempObject.LoadObject(meshs[0], textures[0], shaders[0]);
+	tempObject.LoadObject(meshs[0], textures[0], shaders[5]);
 	objects.emplace_back(tempObject); // Add the object to the vector of objects
 	// Adjust position,rotation,scale
 	objects[0].SetObjectPos(glm::vec3(10.0, 1.5, 3.0));
@@ -49,13 +49,13 @@ void ObjectHandler::initObjects()
 	objects[4].SetObjectPos(glm::vec3(-5.0, -2.5, 3.0));
 	objects[4].SetObjectScale(glm::vec3(0.5, 0.5, 0.5));
 
-	tempObject.LoadObject(meshs[4], textures[3], shaders[0]);
-	objects.emplace_back(tempObject);
-	objects[5].SetObjectPos(glm::vec3(5.0, -2.0, 0.0));
+	//tempObject.LoadObject(meshs[4], textures[3], shaders[0]); // Bakpack
+	//objects.emplace_back(tempObject);
+	//objects[5].SetObjectPos(glm::vec3(5.0, -2.0, 0.0));
 
 	tempObject.LoadObject(meshs[5], textures[4], shaders[0]);
 	objects.emplace_back(tempObject);
-	objects[6].SetObjectPos(glm::vec3(-3.0, -2.0, 0.0));
+	objects[5].SetObjectPos(glm::vec3(-3.0, -2.0, 0.0));
 
 }
 
@@ -102,8 +102,12 @@ void ObjectHandler::initShaders()
 	tempShader.init("..\\res\\RefractShader");
 	shaders.emplace_back(tempShader);
 	
-	shaders.emplace_back("..\\res\\LightShader");
+	tempShader.init("..\\res\\LightShader");
 	shaders.emplace_back(tempShader);
+
+	tempShader.initGeo();
+	shaders.emplace_back(tempShader);
+	
 }
 
 void ObjectHandler::initMeshes()

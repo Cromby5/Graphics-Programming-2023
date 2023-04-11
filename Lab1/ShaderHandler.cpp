@@ -67,6 +67,32 @@ void ShaderHandler::init(const std::string& filename)
 	glUniform1i(uniforms[SPECULAR], 2);
 		
 }
+// Forcing GEO shader to load
+void ShaderHandler::initGeo()
+{
+	program = glCreateProgram(); // create shader program (openGL saves as ref number)
+	shaders1[0] = CompileShader(LoadShader("..\\res\\shaderGeoText.vert"), GL_VERTEX_SHADER); // create vertex shader
+	shaders1[1] = CompileShader(LoadShader("..\\res\\shaderGeoText.geom"), GL_GEOMETRY_SHADER); // create fragment shader
+	shaders1[2] = CompileShader(LoadShader("..\\res\\shaderGeoText.frag"), GL_FRAGMENT_SHADER); // create fragment shader
+
+
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		glAttachShader(program, shaders1[i]); //add all our shaders to the shader program "shaders" 
+	}
+
+	glBindAttribLocation(program, 0, "VertexPosition"); // associate attribute variable with our shader program attribute (in this case attribute vec3 position;)
+	glBindAttribLocation(program, 1, "VertexTexCoord");
+	glBindAttribLocation(program, 2, "VertexNormal");
+
+	glLinkProgram(program); //create executables that will run on the GPU shaders
+	CheckShaderError(program, GL_LINK_STATUS, true, "Error: Shader program linking failed"); // cheack for error
+
+	glValidateProgram(program); //check the entire program is valid
+	CheckShaderError(program, GL_VALIDATE_STATUS, true, "Error: Shader program not valid");
+
+	uniforms[TRANSFORM_U] = glGetUniformLocation(program, "transform"); // associate with the location of uniform variable within a program
+}
 
 ShaderHandler::~ShaderHandler()
 {
@@ -96,6 +122,18 @@ void ShaderHandler::Update(const Transform& transform, const WorldCamera& camera
 	glm::vec3 lightPos = glm::vec3(0.0f, 3.0f, 0.0f);
 	glUniform4fv(uniforms[LIGHT_COLOUR], 1, &lightColour[0]);
 	glUniform3fv(uniforms[LIGHT_POS], 1, &lightPos[0]);
+
+	// Geo Shader, ideally we move all this stuff somewhere else to seperate these
+	float randX = ((float)rand() / (RAND_MAX));
+	float randY = ((float)rand() / (RAND_MAX));
+	float randZ = ((float)rand() / (RAND_MAX));
+	// Frag: uniform float randColourX; uniform float randColourY; uniform float randColourZ;
+	setFloat("randColourX", randX);
+	setFloat("randColourY", randY);
+	setFloat("randColourZ", randZ);
+	// Geom: uniform float time;
+	counter = counter + 0.01f;
+	setFloat("time", counter);
 }
 
 void ShaderHandler::UpdateSky(const WorldCamera& camera)

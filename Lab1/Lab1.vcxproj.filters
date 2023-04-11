@@ -124,6 +124,21 @@
     <None Include="..\res\LightShader.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\res\shaderGeoText.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\shaderGeoText.geom">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\shaderGeoText.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\eMapping.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\eMapping.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\res\Models\cube.obj">

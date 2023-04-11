@@ -26,7 +26,7 @@ private:
 	void Input();
 	void gameProcessLoop();
 	void drawGame();
-	void drawFog();
+
 
 	DisplayWindow _gameDisplay;
 	GameState _gameState;

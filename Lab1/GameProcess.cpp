@@ -99,7 +99,7 @@ void GameProcess::drawGame()
 {
 	_gameDisplay.clearDisplayBuffer(0.0f, 0.0f, 0.0f, 1.0f);
 	
-	//drawFog();
+
 	sky.drawSkyBox(myCamera);
 	objectHandler.drawObjects(myCamera,counter);
 	
@@ -131,23 +131,6 @@ void GameProcess::drawGame()
 	glEnd();
 	_gameDisplay.swapBuffer();
 } 
-
-void GameProcess::drawFog()
-{
-	// fog
-	GLfloat fogColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
-	glFogfv(GL_FOG_COLOR, fogColor);
-	
-	glFogi(GL_FOG_MODE, GL_EXP);
-	glFogf(GL_FOG_DENSITY, 0.65f);
-	float colour[] = {0.5,0.5,0.5,1.0};
-	glFogfv(GL_FOG_COLOR, colour);
-	float col[] = {1.0,1.0,1.0,1.0};
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-	//glFogf(GL_FOG_START, 1.0f);
-	//glFogf(GL_FOG_END, 5.0f);
-}
-
 
 
 

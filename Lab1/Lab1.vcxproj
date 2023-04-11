@@ -161,6 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\res\Basic.shader" />
+    <None Include="..\res\eMapping.frag" />
+    <None Include="..\res\eMapping.vert" />
     <None Include="..\res\LightShader.frag" />
     <None Include="..\res\LightShader.vert" />
     <None Include="..\res\ReflectShader.frag" />
@@ -169,6 +171,9 @@
     <None Include="..\res\RefractShader.vert" />
     <None Include="..\res\shader.frag" />
     <None Include="..\res\shader.vert" />
+    <None Include="..\res\shaderGeoText.frag" />
+    <None Include="..\res\shaderGeoText.geom" />
+    <None Include="..\res\shaderGeoText.vert" />
     <None Include="..\res\Skybox.shader" />
     <None Include="..\res\SkyboxShader.frag" />
     <None Include="..\res\SkyboxShader.vert" />
