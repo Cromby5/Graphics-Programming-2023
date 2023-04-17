@@ -5,17 +5,24 @@
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
 
-//Passing in texture coordinates
+// Passing in texture coordinates
 in VS_OUT {
     vec2 texCoords;
+    vec3 v_norm;
+	vec4 v_pos;
 } gs_in[];
 
-//Passing out texture coordinates
-out vec2 TexCoords; 
+// Not really sure if this is the preferred way to pass to a frag shader if needed, right now its basically the same as above, Think I might need it to texture the explode properly
+// since out vec2 texCoords was needed before so im putting it here to keep things consistant and will export the normal and positons to the frag shader as well if needed for other purposes
+out GS_OUT {
+	vec2 texCoords;
+    vec3 v_norm;
+	vec4 v_pos;
+} gs;
 
-//Uniform variabe
+
+// Uniform variable
 uniform float time;
-
 
 vec4 explode(vec4 position, vec3 normal)
 {
@@ -42,13 +49,19 @@ void main()
     vec3 normal = GetNormal();
 //Setting current vertex position
     gl_Position = explode(gl_in[0].gl_Position, normal);
-    TexCoords = gs_in[0].texCoords;
+    gs.texCoords = gs_in[0].texCoords;
+    gs.v_norm = gs_in[0].v_norm;
+    gs.v_pos = gs_in[0].v_pos;
     EmitVertex();
     gl_Position = explode(gl_in[1].gl_Position, normal);
-    TexCoords = gs_in[1].texCoords;
+    gs.texCoords = gs_in[1].texCoords;
+    gs.v_norm = gs_in[1].v_norm;
+    gs.v_pos = gs_in[1].v_pos;
     EmitVertex();
     gl_Position = explode(gl_in[2].gl_Position, normal);
-    TexCoords = gs_in[2].texCoords;
+    gs.texCoords = gs_in[2].texCoords;
+    gs.v_norm = gs_in[2].v_norm;
+    gs.v_pos = gs_in[2].v_pos;
     EmitVertex();
     EndPrimitive();
 }  

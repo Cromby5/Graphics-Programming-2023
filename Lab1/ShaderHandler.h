@@ -14,7 +14,7 @@ public:
 
 	void Use(); // Set gpu to use our shaders
 	//void ParseShader(const std::string& filename); // Parse the shader files to seperate vert and frag shaders
-	void Update(const Transform& transform, const WorldCamera& camera);
+	void Update(const Transform& transform, const WorldCamera& camera, float counter);
 	void UpdateSky(const WorldCamera& camera);
 	void UpdateLight(const Transform& transform, const WorldCamera& camera);
 	

@@ -1,61 +1,29 @@
 //Version Number
 #version 400
 
-//The layout qualifers
+// The layout qualifers
 layout (location = 0) in vec3 VertexPosition;
 layout (location = 1) in vec2 TextCoords;
 layout (location = 2) in vec3 VertexNormal;
 
-//Uniform variable
+// Uniform variable
 uniform mat4 transform;
-
-//Passing out the normal and position data
-out vec3 v_norm;
-out vec4 v_pos; 
-
+ 
+// Passing out the normal, TC and position data
 out VS_OUT {
     vec2 texCoords;
+	vec3 v_norm;
+	vec4 v_pos;
 } vert;
 
 void main()
 {
-	//Assigning the normal and position data
-	v_norm = VertexNormal;
+	// Assigning the normal, TC and position data
+	vert.v_norm = VertexNormal;
 	vert.texCoords = TextCoords;
-	v_pos = vec4(VertexPosition, 1.0);
+	vert.v_pos = vec4(VertexPosition, 1.0);
 
 	// Sets the position of the current vertex
 	gl_Position = transform * vec4(VertexPosition, 1.0);
 }
 
-/* MINE
-//Version Number
-#version 400
-//The layout qualifers
-layout (location = 0) in vec3 VertexPosition;
-layout (location = 1) in vec2 TextCoords;
-layout (location = 2) in vec3 VertexNormal;
-
-//Uniform variable
-uniform mat4 transform;
-
-//Passing out the normal and position data
-out vec3 v_norm;
-out vec4 v_pos; 
-
-out VS_OUT {
-    vec2 texCoords;
-} vert;
-
-void main()
-{
-	//Assigning the normal and position data
-	v_norm = VertexNormal;
-	vert.texCoords = TextCoords;
-	v_pos = vec4(VertexPosition, 1.0);
-
-	// Sets the position of the current vertex
-	gl_Position = transform * vec4(VertexPosition, 1.0);
-}
-
-*/

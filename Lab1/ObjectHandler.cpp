@@ -23,7 +23,7 @@ void ObjectHandler::initObjects()
 	
 	objects.reserve(15); // reserve 15 objects to prevent reallocation of the vector in this example scene.
 
-	tempObject.LoadObject(meshs[0], textures[0], shaders[5]);
+	tempObject.LoadObject(meshs[0], textures[2], shaders[5]);
 	objects.emplace_back(tempObject); // Add the object to the vector of objects
 	// Adjust position,rotation,scale
 	objects[0].SetObjectPos(glm::vec3(10.0, 1.5, 3.0));
@@ -140,7 +140,7 @@ void ObjectHandler::drawObjects(WorldCamera& myCamera , float counter)
 	for (unsigned int i = 0; i < objects.size(); i++)
 	{
 		objects[i]._shader.Use();
-		objects[i]._shader.Update(objects[i]._transform, myCamera);
+		objects[i]._shader.Update(objects[i]._transform, myCamera, counter);
 		objects[i]._texture.Bind(0);
 		// Temp overrides, carried across from inital project state to test the new object handler.
 		// For spec/normal map testing on the bricks and backpack
