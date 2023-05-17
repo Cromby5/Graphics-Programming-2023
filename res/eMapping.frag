@@ -31,5 +31,5 @@ void main()
 	vec4 Colour = vec4(texture(skybox, R).rgb, 1.0);
 
 	// Now read the rgb values from our texture2D and mix the result with “Colour”. You will need to use “glGetUniformLocation” application side, which we covered in a previous lab.
-	fragColour = mix(Colour, texture(diffuse, vert_In.tC), 0.5);
+	fragColour = mix(Colour, texture2D(diffuse, vert_In.tC), 0.5);
 }

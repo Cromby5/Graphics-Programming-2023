@@ -165,6 +165,10 @@
     <None Include="..\res\eMapping.vert" />
     <None Include="..\res\LightShader.frag" />
     <None Include="..\res\LightShader.vert" />
+    <None Include="..\res\Mandelbrot.frag" />
+    <None Include="..\res\Mandelbrot.vert" />
+    <None Include="..\res\MandelbrotB.frag" />
+    <None Include="..\res\MandelbrotB.vert" />
     <None Include="..\res\ReflectShader.frag" />
     <None Include="..\res\ReflectShader.vert" />
     <None Include="..\res\RefractShader.frag" />

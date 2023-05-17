@@ -139,6 +139,18 @@
     <None Include="..\res\eMapping.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\res\Mandelbrot.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Mandelbrot.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\MandelbrotB.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\MandelbrotB.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\res\Models\cube.obj">

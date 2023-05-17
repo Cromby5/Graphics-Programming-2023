@@ -131,8 +131,7 @@ void ShaderHandler::Update(const Transform& transform, const WorldCamera& camera
 	setFloat("randColourX", randX);
 	setFloat("randColourY", randY);
 	setFloat("randColourZ", randZ);
-	// Geom: uniform float time;
-	
+	// Geom: uniform float time, using deltatime;
 	setFloat("time", counter);
 }
 

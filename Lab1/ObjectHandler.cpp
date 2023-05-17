@@ -11,7 +11,7 @@ ObjectHandler::~ObjectHandler()
 {
 	
 }
-
+// Extra mess from previous coursework, not really related to graphics programming so it will stay like this.
 void ObjectHandler::initObjects()
 {
 	// Unsure whats going on that I can't use the constructor to load the objects directly into the vector of objects without the data being wrong in someway,
@@ -23,40 +23,45 @@ void ObjectHandler::initObjects()
 	
 	objects.reserve(15); // reserve 15 objects to prevent reallocation of the vector in this example scene.
 
-	tempObject.LoadObject(meshs[0], textures[2], shaders[5]);
+	tempObject.LoadObject(meshs[0], textures[2], shaders[5]); // Exploding monkey head
 	objects.emplace_back(tempObject); // Add the object to the vector of objects
 	// Adjust position,rotation,scale
 	objects[0].SetObjectPos(glm::vec3(10.0, 1.5, 3.0));
 	
+	tempObject.LoadObject(meshs[1], textures[0], shaders[4]); // Light Cube
+	objects.emplace_back(tempObject);
+	objects[1].SetObjectPos(glm::vec3(0.0, 3.0, 0.0));
+	
+	// MANDEL
+	tempObject.LoadObject(meshs[2], textures[0], shaders[8]);
+	objects.emplace_back(tempObject);
+	objects[2].SetObjectPos(glm::vec3(0, -6.0, 0));
+	objects[2].SetObjectRot(glm::vec3(0, 0, 0));
+
+
 	// Repeat for every object to be added
-	tempObject.LoadObject(meshs[0], textures[1], shaders[0]);
+	/*
+	tempObject.LoadObject(meshs[0], textures[1], shaders[0]); // Monkey head 2
 	objects.emplace_back(tempObject);
-	objects[1].SetObjectPos(glm::vec3(5.0, 5, 3.0));
-	
-	
-	tempObject.LoadObject(meshs[1], textures[0], shaders[4]);
-	objects.emplace_back(tempObject);
-	objects[2].SetObjectPos(glm::vec3(0.0, 3.0, 0.0));
-	
-	
-	tempObject.LoadObject(meshs[2], textures[0], shaders[3]);
-	objects.emplace_back(tempObject);
-	objects[3].SetObjectPos(glm::vec3(0.0, 0.5, 8.0));
-	objects[3].SetObjectScale(glm::vec3(5.0, 5.0, 5.0));
+	objects[1].SetObjectPos(glm::vec3(100.0, 5, 3.0));
+	*/
+	//tempObject.LoadObject(meshs[2], textures[0], shaders[3]); // Cart, Refraction
+	//objects.emplace_back(tempObject);
+	//objects[3].SetObjectPos(glm::vec3(0.0, 0.5, 8.0));
+	//objects[3].SetObjectScale(glm::vec3(5.0, 5.0, 5.0));
 
-	tempObject.LoadObject(meshs[3], textures[2], shaders[0]);
-	objects.emplace_back(tempObject);
-	objects[4].SetObjectPos(glm::vec3(-5.0, -2.5, 3.0));
-	objects[4].SetObjectScale(glm::vec3(0.5, 0.5, 0.5));
+	//tempObject.LoadObject(meshs[3], textures[2], shaders[0]); // Canoe
+	//objects.emplace_back(tempObject);
+	//objects[4].SetObjectPos(glm::vec3(-5.0, -2.5, 3.0));
+	//objects[4].SetObjectScale(glm::vec3(0.5, 0.5, 0.5));
 
-	//tempObject.LoadObject(meshs[4], textures[3], shaders[0]); // Bakpack
+	//tempObject.LoadObject(meshs[4], textures[3], shaders[0]); // Backpack
 	//objects.emplace_back(tempObject);
 	//objects[5].SetObjectPos(glm::vec3(5.0, -2.0, 0.0));
 
-	tempObject.LoadObject(meshs[5], textures[4], shaders[0]);
-	objects.emplace_back(tempObject);
-	objects[5].SetObjectPos(glm::vec3(-3.0, -2.0, 0.0));
-
+	//tempObject.LoadObject(meshs[5], textures[4], shaders[0]); // Wooden Crate
+	//objects.emplace_back(tempObject);
+	//objects[5].SetObjectPos(glm::vec3(-3.0, -2.0, 0.0));
 }
 
 void ObjectHandler::initTextures()
@@ -90,24 +95,36 @@ void ObjectHandler::initShaders()
 	// Load in all the shaders and store them in the vector to be used later by any object.
 	shaders.reserve(10); // prevent reallocation of the vector in this example scene.
 	
-	tempShader.init("..\\res\\shader");
+	tempShader.init("..\\res\\shader"); // 0:
 	shaders.emplace_back(tempShader);
 	
-	tempShader.init("..\\res\\SkyboxShader");
+	tempShader.init("..\\res\\SkyboxShader"); // 1:
 	shaders.emplace_back(tempShader);
 	
-	tempShader.init("..\\res\\ReflectShader");
+	tempShader.init("..\\res\\ReflectShader"); // 2:
 	shaders.emplace_back(tempShader);
 	
-	tempShader.init("..\\res\\RefractShader");
+	tempShader.init("..\\res\\RefractShader"); // 3:
 	shaders.emplace_back(tempShader);
 	
-	tempShader.init("..\\res\\LightShader");
+	tempShader.init("..\\res\\LightShader"); // 4:
 	shaders.emplace_back(tempShader);
 
-	tempShader.initGeo();
+	// NEW for Graphics Programming
+	
+	tempShader.initGeo(); // 5: Force Exploding Shader, only reason for this is to show the use of a geometry shader which is required.
+	shaders.emplace_back(tempShader);
+
+	tempShader.init("..\\res\\eMapping"); // 6: The shader for the environment mapping, Slightly different from the reflect shader since textures can be used ontop
+	shaders.emplace_back(tempShader);
+
+	tempShader.init("..\\res\\Mandelbrot"); // 7: The shader for the mandelbrot set, 
+	shaders.emplace_back(tempShader);
+
+	tempShader.init("..\\res\\MandelbrotB"); // 8: The backup shader for the mandelbrot set, 
 	shaders.emplace_back(tempShader);
 	
+	// Custom Technique
 }
 
 void ObjectHandler::initMeshes()
@@ -121,6 +138,10 @@ void ObjectHandler::initMeshes()
 	tempMesh.loadModel("..\\res\\Models\\cube.obj");
 	meshs.emplace_back(tempMesh);
 
+	tempMesh.loadModel("..\\res\\Models\\plane.obj");
+	meshs.emplace_back(tempMesh);
+
+	/*
 	tempMesh.loadModel("..\\res\\Models\\cart.obj");
 	meshs.emplace_back(tempMesh);
 
@@ -132,6 +153,8 @@ void ObjectHandler::initMeshes()
 
 	tempMesh.loadModel("..\\res\\Models\\Wooden Crate 01.obj");
 	meshs.emplace_back(tempMesh);
+	*/
+
 }
 
 void ObjectHandler::drawObjects(WorldCamera& myCamera , float counter)
@@ -150,6 +173,7 @@ void ObjectHandler::drawObjects(WorldCamera& myCamera , float counter)
 			objects[i]._texture.Bind(2);
 		}
 		// For collision tests with the monkey models
+		/*
 		if (i == 0)
 		{
 			objects[i].SetObjectPos(glm::vec3(sinf(counter),0.5f,0.0f));
@@ -158,12 +182,14 @@ void ObjectHandler::drawObjects(WorldCamera& myCamera , float counter)
 		{
 			objects[i].SetObjectPos(glm::vec3(-sinf(counter),-0.5f, 0.0f));
 		}
+		*/
 		objects[i]._mesh.draw();
 		objects[i]._mesh.updateSphereData(objects[i]._transform.GetPos(), 1.0f);
 	}
 }
 
 // Limited to the first 2 objects created for demo purposes and to prevent unecssarsary performance loss for our objects that will never move in this example.
+// Disabled for Graphics Programming
 bool ObjectHandler::collision(float deltatime, AudioHandler& audio)
 {
 	while (deltatime > 0) // To keep the amount of collisions the same between any frame rate change
