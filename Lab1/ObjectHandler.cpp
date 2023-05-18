@@ -28,17 +28,27 @@ void ObjectHandler::initObjects()
 	// Adjust position,rotation,scale
 	objects[0].SetObjectPos(glm::vec3(10.0, 1.5, 3.0));
 	
-	tempObject.LoadObject(meshs[1], textures[0], shaders[4]); // Light Cube
-	objects.emplace_back(tempObject);
-	objects[1].SetObjectPos(glm::vec3(0.0, 3.0, 0.0));
+	//tempObject.LoadObject(meshs[1], textures[0], shaders[4]); // Light Cube
+	//objects.emplace_back(tempObject);
+	//objects[1].SetObjectPos(glm::vec3(0.0, 3.0, 0.0));
 	
-	// MANDEL
-	tempObject.LoadObject(meshs[2], textures[0], shaders[8]);
+	// MANDEL A (Final, As seen in document)
+	tempObject.LoadObject(meshs[2], textures[2], shaders[7]);
 	objects.emplace_back(tempObject);
-	objects[2].SetObjectPos(glm::vec3(0, -6.0, 0));
+	objects[1].SetObjectPos(glm::vec3(0, -6.0, 0));
+	objects[1].SetObjectRot(glm::vec3(0, 0, 0));
+
+	// MANDEL B (First Attempt, left in for fun)
+	tempObject.LoadObject(meshs[2], textures[2], shaders[8]);
+	objects.emplace_back(tempObject);
+	objects[2].SetObjectPos(glm::vec3(45, -6.0, 45));
 	objects[2].SetObjectRot(glm::vec3(0, 0, 0));
 
-
+	// Emap cube
+	tempObject.LoadObject(meshs[1], textures[1], shaders[6]);
+	objects.emplace_back(tempObject);
+	objects[3].SetObjectPos(glm::vec3(0, 2, 2));
+	
 	// Repeat for every object to be added
 	/*
 	tempObject.LoadObject(meshs[0], textures[1], shaders[0]); // Monkey head 2
@@ -75,6 +85,7 @@ void ObjectHandler::initTextures()
 	textures.emplace_back(tempTexture);
 	
 	tempTexture.LoadTexture("..\\res\\Textures\\water.jpg",0);
+	tempTexture.LoadTexture("..\\res\\Textures\\water.jpg", 1);
 	textures.emplace_back(tempTexture);
 
 	tempTexture.LoadTexture("..\\res\\Textures\\Oak-Architextures.jpg", 0);
@@ -118,10 +129,10 @@ void ObjectHandler::initShaders()
 	tempShader.init("..\\res\\eMapping"); // 6: The shader for the environment mapping, Slightly different from the reflect shader since textures can be used ontop
 	shaders.emplace_back(tempShader);
 
-	tempShader.init("..\\res\\Mandelbrot"); // 7: The shader for the mandelbrot set, 
+	tempShader.init("..\\res\\Mandelbrot"); // 7: The main shader for the mandelbrot set, 
 	shaders.emplace_back(tempShader);
 
-	tempShader.init("..\\res\\MandelbrotB"); // 8: The backup shader for the mandelbrot set, 
+	tempShader.init("..\\res\\MandelbrotB"); // 8: The backup shader for the mandelbrot set, broken.
 	shaders.emplace_back(tempShader);
 	
 	// Custom Technique
@@ -157,21 +168,33 @@ void ObjectHandler::initMeshes()
 
 }
 
-void ObjectHandler::drawObjects(WorldCamera& myCamera , float counter)
+void ObjectHandler::drawObjects(WorldCamera& myCamera , float counter, float newCount)
 {
 	// For each object in the vector of objects, draw it with their own properties.
 	for (unsigned int i = 0; i < objects.size(); i++)
 	{
+		// For Emap Forcing, This may be required for proper appearence and of course should not be here.
+		if (i == 3)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			objects[i]._texture.Bind(1);
+		}
+		
 		objects[i]._shader.Use();
-		objects[i]._shader.Update(objects[i]._transform, myCamera, counter);
+		objects[i]._shader.Update(objects[i]._transform, myCamera, counter, newCount);
 		objects[i]._texture.Bind(0);
 		// Temp overrides, carried across from inital project state to test the new object handler.
 		// For spec/normal map testing on the bricks and backpack
+		/*
 		if ( i == 3 || i == 6)
 		{
 			objects[i]._texture.Bind(1);
 			objects[i]._texture.Bind(2);
 		}
+		*/
+
+
 		// For collision tests with the monkey models
 		/*
 		if (i == 0)

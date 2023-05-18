@@ -199,7 +199,7 @@ void SkyBox::drawSkyBox(const WorldCamera& camera)
 void SkyBox::drawCube(const Transform& transform, const WorldCamera& camera)
 {
 	reflectShader.Use(); 
-	reflectShader.Update(transform, camera, 1.0f);
+	reflectShader.Update(transform, camera, 1.0f, 1.0f);
 	glBindVertexArray(cubeVAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);

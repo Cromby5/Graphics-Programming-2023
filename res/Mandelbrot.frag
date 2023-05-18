@@ -1,61 +1,59 @@
 #version 420 core
-// Mandelbrot fragment
+// Mandelbrot fragment shader
+precision highp float; // All Floats will have a high level of precision
 
-out vec4 fragColor;
+out vec4 fragColor; // Output colour of the fragment shader
 
-// CHANGE to the array thing, vs_out
-in vec2 texCoord0;
-in vec3 Normal;
-in vec3 currentPos;
+// Passed in from the vertex shader
+in vec2 currentPos;
+in vec2 texCoord0; 
 
-uniform float time;
-uniform sampler2D diffuse;
+const float MAX_ITER = 256.0; // The max amount of iterations this fractal will do before it stops, higher number = more detail but slower performance
 
-#define MAX_ITERATIONS 128 // Const value for max iterations
+uniform float time; // Time uniform for zoom animation, broke due to previous attempts with deltatime 
 
-int get_iterations()
+uniform float mandelTime; // Time uniform for zoom animation, not using DeltaTime
+
+uniform sampler2D diffuse; // Texture uniform for a texture to be applied to the fractal, experimental and just for fun to see how it looks. only affects tint and the surroundings of the fractal
+
+
+float mandelbrot (vec2 uv) // Mandelbrot function, takes in a 2d vector representing the uv and returns a float
 {
-	// real number, x axis
-	//float realNum = ((gl_FragCoord.x / 1100 - 0.5)) * 4.0;
-	// imaginary number, y axis
-	//float imagineNum = ((gl_FragCoord.y / 560.0 - 0.7)) * 4.0;
-	float realNum = ((texCoord0.x - 0.5)) * 4.0;
-	float imagineNum = ((texCoord0.y - 0.8)) * 4.0;
-	// move by time
-	int i = 0;
-	float x = realNum;
-	float y = imagineNum;
-
-	while (i < MAX_ITERATIONS)
+	vec2 c = 2 * uv - vec2(0.5, 1); // 1st value is used to scale down the amount of coverage on the coordinates, 
+									// the higher the value the smaller the overall area.
+									// By subtracting a vec2 value acting as a displacment, the fractal can be moved around the plane.
+	// affect c by time
+	//c =  c / 0.1 * vec2(cos(time * 2), sin(time * 2)); // 
+	c =  c / pow(mandelTime, 1) - vec2(0.55, 0.6); // Zooms in by time, Starts displacing by a vec2
+	vec2 z = vec2(0.0); // Z starts at 0 for the first iteration of the fractal 
+	float n = 0.0;
+	for (float i = 0; i < MAX_ITER; i++)
 	{
-		float xtemp = realNum;
-		realNum = (realNum * realNum - imagineNum * imagineNum) + realNum;
-		imagineNum = (2.0 * xtemp * imagineNum) + y;
-
-		if (realNum * realNum + imagineNum * imagineNum > 4.0)
-			break;
-			
-		i++;
+		z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c; // The mandelbrot equation.
+		if (dot(z, z) > 5) // This bounds the fractal iteration to a circle of radius x.
+			return n / MAX_ITER;
+		n++;
 	}
-	return i;
+	return 0.0;
 }
 
-vec4 return_color()
+vec3 hash (float m) // Psuedo random hash function for colouring 3d vectors
 {
-    int iter = get_iterations();
-    if (iter == MAX_ITERATIONS)
-    {
-        gl_FragDepth = 0.0f;
-        return vec4(0.4f, 0.2f, 0.5f, 1.0f);
-    }
- 
-    float iterations = float(iter) / MAX_ITERATIONS;    
-    return vec4(0.0f, iterations, 0.0f, 1.0f);
+	float x = fract(sin(m) * 67358.5453);
+	float y = fract(sin(m + x) * 43758.5453);
+	float z = fract(sin(x + y) * 29658.5453);
+	return vec3(x, y, z);
 }
+
 
 void main()
 {
-	fragColor = texture(diffuse, texCoord0) * return_color();
+	vec2 uv = texCoord0.xy * 2.0 - vec2(1.0); 
+	vec3 col = vec3(0.0);
+	float m = mandelbrot(uv);
+	col += hash(m);
+	//col = pow(col,vec3(0.45)); // Gamma correction for colour if desired, good for single colour use if hash function is not being used.
+	
+	fragColor = vec4(col, 1.0);
+	//fragColor = vec4(col, 1.0) * texture(diffuse, texCoord0); // Texture as background / Tint
 }
-
-

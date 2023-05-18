@@ -73,7 +73,7 @@ public:
 	void initTextures();
 	void initShaders();
 	void initMeshes();
-	void drawObjects(WorldCamera& myCamera, float counter);
+	void drawObjects(WorldCamera& myCamera, float counter, float newCount);
 	bool collision(float deltatime, AudioHandler& audio);
 
 	

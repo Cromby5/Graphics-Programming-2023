@@ -84,7 +84,7 @@ void DisplayWindow::initDisplay()
 	glEnable(GL_LIGHT0); // enable light 0
 	glEnable(GL_COLOR_MATERIAL); // enable colour material
 
-	SDL_GL_SetSwapInterval(0); // set to 0 to disable vsync
+	SDL_GL_SetSwapInterval(1); // set to 0 to disable vsync
 	
 	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 }

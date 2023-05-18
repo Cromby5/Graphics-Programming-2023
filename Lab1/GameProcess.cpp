@@ -45,7 +45,7 @@ void GameProcess::gameProcessLoop()
 		lastTicks = currentTicks;
 	    currentTicks = SDL_GetPerformanceCounter();
 		deltatime = ((currentTicks - lastTicks) * 1 / (double)SDL_GetPerformanceFrequency());; // deltatime values are in ms
-		
+
 		gameAudio.playBackMusic();
 		Input();
 		drawGame();
@@ -101,10 +101,8 @@ void GameProcess::drawGame()
 	
 
 	sky.drawSkyBox(myCamera);
-	objectHandler.drawObjects(myCamera,counter);
+	objectHandler.drawObjects(myCamera,counter,newCount);
 	
-	//glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	//glStencilMask(0xFF);
 	
 	transform.SetPos(glm::vec3(2.0, 1.5, 3.0));
 	transform.SetRot(glm::vec3(0.0, 0.0, 0.0));
@@ -113,20 +111,9 @@ void GameProcess::drawGame()
 	sky.drawCube(transform, myCamera);
 
 	counter += deltatime * 1.0f;
-	// Enable Writing to the Stencil Buffer?
-	/*
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glStencilMask(0x00);
-	glDisable(GL_DEPTH_TEST);
 	
-	// Draw Outline
-
+	newCount += 0.1f; // I believe I broke deltatime / or I am blind to a very obvious issu, so this is a really bad temporary fix to display GP CW without taking up more time
 	
-	// Disable Writing to the Stencil Buffer?
-	glStencilMask(0xFF);
-	glStencilFunc(GL_ALWAYS, 0, 0xFF);
-	glEnable(GL_DEPTH_TEST);
-	*/
 	glEnableClientState(GL_COLOR_ARRAY); 
 	glEnd();
 	_gameDisplay.swapBuffer();

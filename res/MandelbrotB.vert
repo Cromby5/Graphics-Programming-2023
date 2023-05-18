@@ -7,10 +7,9 @@ layout (location = 1) in vec2 texCoord;
 layout (location = 2) in vec3 aNormal;
 
 out vec3 currentPos;
-
 out vec2 texCoord0;
-
 out vec3 Normal;
+
 
 uniform mat4 projection;
 uniform mat4 view;

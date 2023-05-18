@@ -38,6 +38,7 @@ private:
 	ObjectHandler objectHandler;
 
 	float counter = 0.0f;
+	float newCount = 0.0f;
 	float speed = 0.5f;
 	// deltatime variables, keeping track of time and keep it consitent between variable frame rates
 	float deltatime = 0.0f;

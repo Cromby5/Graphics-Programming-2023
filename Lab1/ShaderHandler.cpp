@@ -109,7 +109,7 @@ void ShaderHandler::Use()
 	glUseProgram(program); //installs the program object specified by program as part of rendering state
 }
 
-void ShaderHandler::Update(const Transform& transform, const WorldCamera& camera,float counter)
+void ShaderHandler::Update(const Transform& transform, const WorldCamera& camera,float counter, float newCounter)
 {
 	glm::mat4 mvp = camera.GetViewProjection() * transform.GetModel();
 	glUniformMatrix4fv(uniforms[TRANSFORM_U], 1, GLU_FALSE, &mvp[0][0]);
@@ -133,6 +133,13 @@ void ShaderHandler::Update(const Transform& transform, const WorldCamera& camera
 	setFloat("randColourZ", randZ);
 	// Geom: uniform float time, using deltatime;
 	setFloat("time", counter);
+	setFloat("mandelTime", newCounter);
+	//ShaderHandler::UpdateSky(camera);
+	
+	// New emapping
+	
+	
+	
 }
 
 void ShaderHandler::UpdateSky(const WorldCamera& camera)
