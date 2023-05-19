@@ -11,7 +11,7 @@ in vec3 currentPos;
 uniform float time;
 uniform sampler2D diffuse;
 
-#define MAX_ITERATIONS 500 // Const value for max iterations
+#define MAX_ITERATIONS 256 // Const value for max iterations
 
 int get_iterations()
 {

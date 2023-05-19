@@ -16,9 +16,9 @@ uniform float mandelTime; // Time uniform for zoom animation, not using DeltaTim
 uniform sampler2D diffuse; // Texture uniform for a texture to be applied to the fractal, experimental and just for fun to see how it looks. only affects tint and the surroundings of the fractal
 
 
-float mandelbrot (vec2 uv) // Mandelbrot function, takes in a 2d vector representing the uv and returns a float
+float mandelbrot (vec2 canvas) // Mandelbrot function, takes in a 2d vector representing the uv and returns a float
 {
-	vec2 c = 2 * uv - vec2(0.5, 1); // 1st value is used to scale down the amount of coverage on the coordinates, 
+	vec2 c = 2 * canvas - vec2(0.5, 1); // 1st value is used to scale down the amount of coverage on the coordinates, 
 									// the higher the value the smaller the overall area.
 									// By subtracting a vec2 value acting as a displacment, the fractal can be moved around the plane.
 	// affect c by time
@@ -27,28 +27,28 @@ float mandelbrot (vec2 uv) // Mandelbrot function, takes in a 2d vector represen
 	vec2 z = vec2(0.0); // Z starts at 0 for the first iteration of the fractal 
 	for (float i = 0; i < MAX_ITER; i++)
 	{
-		z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c; // The mandelbrot equation.
+		z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c; // The mandelbrot equation. Derived from the complex number equation z = z^2 + c, where c = a + bi , our point on the canvas
 		if (dot(z, z) > 2) // This bounds the values to be within the mandelbrot set, if the value is greater than x it will return as it is outside of the bounds of the set.
 			return i / MAX_ITER;
 	}
 	return 0.0;
 }
 
-vec3 hash (float m) // Psuedo random hash function for colouring 3d vectors
+vec3 hash (float mResult) // Psuedo random hash function for colouring 3d vectors
 {
-	float x = fract(sin(m) * 67358.5453);
-	float y = fract(sin(m + x) * 43758.5453);
-	float z = fract(sin(x + y) * 29658.5453);
+	float x = fract(sin(mResult) * 67358.5453);
+	float y = fract(sin(mResult + x) * 43758.5453);
+	float z = fract(sin(mResult + y) * 29658.5453);
 	return vec3(x, y, z);
 }
 
 
 void main()
 {
-	vec2 uv = texCoord0.xy * 2.0 - vec2(1.0); 
+	vec2 canvas = texCoord0.xy * 2.0 - vec2(1.0); 
 	vec3 col = vec3(0.0);
-	float m = mandelbrot(uv);
-	col += hash(m);
+	float mResult = mandelbrot(canvas);
+	col += hash(mResult);
 	//col = pow(col,vec3(0.45)); // Gamma correction for colour if desired, good for single colour use if hash function is not being used.
 	
 	fragColor = vec4(col, 1.0);
