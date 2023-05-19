@@ -1,6 +1,6 @@
 #version 420 core
 // Mandelbrot fragment
-
+precision highp float; 
 out vec4 fragColor;
 
 // CHANGE to the array thing, vs_out
@@ -29,7 +29,7 @@ int get_iterations()
 		realNum = (realNum * realNum - imagineNum * imagineNum) + realNum; // (x * x - y * y) + x
 		imagineNum = (4.0 * xtemp * imagineNum) + y; // (4 * x * y) + y
 
-		if (realNum * realNum + imagineNum * imagineNum > 4.0)
+		if (realNum * realNum + imagineNum * imagineNum > 2.0)
 			break;
 			
 		i++;

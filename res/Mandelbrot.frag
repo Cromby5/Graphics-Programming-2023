@@ -5,7 +5,6 @@ precision highp float; // All Floats will have a high level of precision
 out vec4 fragColor; // Output colour of the fragment shader
 
 // Passed in from the vertex shader
-in vec2 currentPos;
 in vec2 texCoord0; 
 
 const float MAX_ITER = 256.0; // The max amount of iterations this fractal will do before it stops, higher number = more detail but slower performance
@@ -26,13 +25,11 @@ float mandelbrot (vec2 uv) // Mandelbrot function, takes in a 2d vector represen
 	//c =  c / 0.1 * vec2(cos(time * 2), sin(time * 2)); // 
 	c =  c / pow(mandelTime, 1) - vec2(0.55, 0.6); // Zooms in by time, Starts displacing by a vec2
 	vec2 z = vec2(0.0); // Z starts at 0 for the first iteration of the fractal 
-	float n = 0.0;
 	for (float i = 0; i < MAX_ITER; i++)
 	{
 		z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c; // The mandelbrot equation.
-		if (dot(z, z) > 5) // This bounds the fractal iteration to a circle of radius x.
-			return n / MAX_ITER;
-		n++;
+		if (dot(z, z) > 2) // This bounds the values to be within the mandelbrot set, if the value is greater than x it will return as it is outside of the bounds of the set.
+			return i / MAX_ITER;
 	}
 	return 0.0;
 }
