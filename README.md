@@ -7,7 +7,7 @@ This is using my Games Programming 2 CW as a base to start from
 2 Mandelbrots shaders are included as one 'failed' / is half complete, however I think the result ended up is like one of those Inkblot tests so it is kept in for an extra visual.
 
 
-Video:
+Video: https://www.youtube.com/watch?v=wX1lNlIQlaU
 
 OLD: (Some May not be true anymore)
 
