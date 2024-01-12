@@ -1,6 +1,37 @@
 # GP--CW-BR
-Graphics Programming GCU CW 2022-2023
 
+Games Programming 3
+
+NEW
+
+"This Coursework contains the following extension material
+
+IMGUI
+A custom imgui window, as seen here allowing some values to be altered
+I wanted this for some basic scene editing stuff, very experimental
+Press TAB to open / close this window
+
+ASSIMP
+  Assimp Model Loading Integration
+	Updated SDL + GLEW versions to support x64, allowing assimp to function
+	stb_image has also been updated to only require its header file
+	Mesh, Texture class had to be updated to remove any relation to the old obj loader
+	Essentially a rewrite of those classes to reimplement prior functions
+
+EnTT ECS
+	Entity Component System using the EnTT library");
+	ImGui::BulletText("A basic implementation of an ECS, with a scene class and entity class");
+	ImGui::BulletText("It currently experiencing bugs so this may be mixed with the old model loading methods to present the work");
+
+
+GENERAL
+	Better responsiveness on movement keys while held down,using SDL_GetKeyboardState
+	Attempts to consider memory management, smart pointers etc used when possible / when rewriting areas
+	Move / copy constructors, initilazation lists, operators
+
+
+OLD::
+Graphics Programming GCU CW 2022-2023
 This is using my Games Programming 2 CW as a base to start from
 
 
